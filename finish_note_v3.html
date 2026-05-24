@@ -1,0 +1,290 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans JP',var(--font-sans);}
+.app{padding:1rem;max-width:680px;margin:0 auto;}
+h1{font-size:17px;font-weight:700;color:#534AB7;margin-bottom:1rem;display:flex;align-items:center;gap:6px;}
+.tabs{display:flex;gap:6px;margin-bottom:1rem;}
+.tab{padding:7px 18px;border-radius:99px;border:1.5px solid #CECBF6;font-size:13px;font-weight:700;cursor:pointer;background:var(--color-background-secondary);color:#7F77DD;font-family:inherit;transition:all .15s;}
+.tab.active{background:#534AB7;color:#EEEDFE;border-color:#534AB7;}
+.card{background:var(--color-background-primary);border-radius:16px;border:1.5px solid #CECBF6;padding:1.25rem;margin-bottom:1rem;}
+.card-title{font-size:13px;font-weight:700;color:#534AB7;margin-bottom:.75rem;display:flex;align-items:center;gap:5px;}
+.row{display:flex;gap:8px;margin-bottom:.65rem;align-items:center;flex-wrap:wrap;}
+.label{font-size:12px;color:var(--color-text-secondary);min-width:70px;font-weight:500;}
+input[type=text]{padding:8px 11px;border-radius:10px;border:1.5px solid #CECBF6;font-size:13px;background:var(--color-background-secondary);color:var(--color-text-primary);font-family:inherit;outline:none;}
+input[type=text]:focus{border-color:#7F77DD;}
+input.name-in{width:130px;}
+input.time-in{width:90px;}
+input.memo-in{flex:1;min-width:80px;}
+.dur-row{display:flex;align-items:center;gap:10px;}
+.dur-slider{flex:1;accent-color:#534AB7;}
+.dur-val{font-size:14px;font-weight:700;color:#534AB7;min-width:70px;}
+.time-section{margin-bottom:1rem;}
+.ts-head{font-size:11px;font-weight:700;color:var(--color-text-secondary);margin-bottom:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.badge{font-size:10px;padding:2px 9px;border-radius:99px;font-weight:700;}
+.b-90{background:#E6F1FB;color:#185FA5;}
+.b-60{background:#EAF3DE;color:#3B6D11;}
+.b-30{background:#FAEEDA;color:#854F0B;}
+.b-0{background:#FCEBEB;color:#A32D2D;}
+.t-label{font-size:12px;font-weight:700;}
+.t-90{color:#185FA5;}.t-60{color:#3B6D11;}.t-30{color:#854F0B;}.t-0{color:#A32D2D;}
+.drug-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;}
+.dchip{padding:6px 11px;border-radius:9px;border:1.5px solid #CECBF6;font-size:12px;cursor:pointer;font-weight:500;background:var(--color-background-secondary);color:var(--color-text-secondary);font-family:inherit;transition:all .12s;user-select:none;}
+.dchip.on{background:#534AB7;color:#EEEDFE;border-color:#534AB7;font-weight:700;}
+.dchip.on::before{content:'✓ ';}
+.drug-group-label{font-size:11px;color:var(--color-text-secondary);margin:6px 0 4px;font-weight:500;}
+.extra-in{width:100%;margin-top:2px;}
+.conflict-note{font-size:11px;color:#854F0B;background:#FAEEDA;border-radius:8px;padding:7px 10px;margin-top:6px;display:none;line-height:1.6;}
+.conflict-note.show{display:block;}
+.btn-add{width:100%;padding:11px;border-radius:12px;background:#534AB7;color:#EEEDFE;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .1s;margin-top:.5rem;}
+.btn-add:hover{transform:scale(1.01);}
+.btn-clear{padding:7px 14px;border-radius:10px;border:1.5px solid #CECBF6;background:var(--color-background-secondary);color:var(--color-text-secondary);font-size:12px;cursor:pointer;font-family:inherit;}
+.note-wrap{background:var(--color-background-primary);border-radius:16px;border:1.5px solid #CECBF6;padding:1.25rem;}
+.note-empty{text-align:center;color:var(--color-text-secondary);font-size:13px;padding:2rem 0;}
+.entry-row{display:flex;align-items:flex-start;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--color-border-tertiary);gap:8px;}
+.entry-row:last-child{border-bottom:none;}
+.entry-time{font-size:12px;font-weight:700;color:#534AB7;min-width:42px;}
+.entry-body{flex:1;font-size:13px;line-height:1.7;color:var(--color-text-primary);}
+.entry-name{font-weight:700;}
+.drug-line{margin-top:3px;}
+.drug-tag{display:inline-block;font-size:11px;padding:2px 7px;border-radius:6px;margin:2px 3px 2px 0;font-weight:500;}
+.dt-90{background:#E6F1FB;color:#185FA5;}
+.dt-60{background:#EAF3DE;color:#3B6D11;}
+.dt-30{background:#FAEEDA;color:#854F0B;}
+.dt-0{background:#FCEBEB;color:#A32D2D;}
+.btn-del{font-size:11px;color:var(--color-text-secondary);cursor:pointer;padding:3px 7px;border-radius:6px;border:1px solid var(--color-border-tertiary);background:none;font-family:inherit;flex-shrink:0;}
+.btn-del:hover{color:#A32D2D;border-color:#F09595;}
+.copy-btn{margin-top:.75rem;width:100%;padding:9px;border-radius:10px;border:1.5px solid #CECBF6;background:var(--color-background-secondary);color:#534AB7;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+</style>
+
+<div class="app">
+  <h1><i class="ti ti-notebook" aria-hidden="true" style="font-size:18px;color:#AFA9EC"></i>Finish Note</h1>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('input')"><i class="ti ti-edit" aria-hidden="true"></i> 입력</button>
+    <button class="tab" onclick="showTab('note')"><i class="ti ti-list" aria-hidden="true"></i> 노트 보기</button>
+  </div>
+
+  <div id="tab-input">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-user" aria-hidden="true"></i> 환자 정보</div>
+      <div class="row">
+        <span class="label">환자 이름</span>
+        <input class="name-in" type="text" id="pt-name" placeholder="이름 입력"/>
+      </div>
+      <div class="row">
+        <span class="label">투석 시작</span>
+        <input class="time-in" type="text" id="start-time" placeholder="07:00" maxlength="5" oninput="fmtTime(this)" onchange="calcTimes()"/>
+      </div>
+      <div class="row" style="align-items:flex-start;">
+        <span class="label" style="padding-top:6px;">투석 시간</span>
+        <div style="flex:1;">
+          <div class="dur-row">
+            <input type="range" class="dur-slider" id="dur-slider" min="120" max="270" step="10" value="240" oninput="calcTimes()"/>
+            <span class="dur-val" id="dur-val">4시간 0분</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <span class="label">종료 예정</span>
+        <span id="end-time-display" style="font-size:14px;font-weight:700;color:#534AB7;"></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-pill" aria-hidden="true"></i> 약제 선택</div>
+
+      <div class="time-section">
+        <div class="ts-head">
+          <span class="badge b-90">종료 1시간 30분 전</span>
+          <span class="t-label t-90" id="t90-display"></span>
+        </div>
+        <div class="drug-chips" id="chips-90">
+          <button class="dchip" data-drug="네프라민" data-slot="90" onclick="toggleDrug(this)">네프라민</button>
+          <button class="dchip" data-drug="리피션" data-slot="90" onclick="toggleDrug(this)">리피션</button>
+        </div>
+        <input class="extra-in" type="text" id="extra-90" placeholder="직접 입력"/>
+      </div>
+
+      <div class="time-section">
+        <div class="ts-head">
+          <span class="badge b-60">종료 1시간 전</span>
+          <span class="t-label t-60" id="t60-display"></span>
+        </div>
+        <div class="drug-chips" id="chips-60">
+          <button class="dchip" data-drug="훼모럼" data-slot="60" onclick="toggleDrug(this)">훼모럼</button>
+        </div>
+        <input class="extra-in" type="text" id="extra-60" placeholder="직접 입력"/>
+        <div class="conflict-note" id="conflict-note">
+          <i class="ti ti-alert-triangle" aria-hidden="true"></i>
+          <strong>네프라민/리피션 + 훼모럼 병용:</strong> 네프라민/리피션은 <strong id="conflict-t120"></strong> (종료 2시간 전)에 시작, 훼모럼은 <strong id="conflict-t60"></strong> (종료 1시간 전)에 투여
+        </div>
+      </div>
+
+      <div class="time-section">
+        <div class="ts-head">
+          <span class="badge b-30">종료 30분 전</span>
+          <span class="t-label t-30" id="t30-display"></span>
+        </div>
+        <div class="drug-chips" id="chips-30">
+          <button class="dchip" data-drug="NS100ml+B3C3" data-slot="30" onclick="toggleDrug(this)">NS100ml+B3C3</button>
+          <button class="dchip" data-drug="지씨타치온2V+NS100ml" data-slot="30" onclick="toggleDrug(this)">지씨타치온2V+NS100ml</button>
+        </div>
+        <input class="extra-in" type="text" id="extra-30" placeholder="직접 입력"/>
+      </div>
+
+      <div class="time-section">
+        <div class="ts-head">
+          <span class="badge b-0">종료 시</span>
+          <span class="t-label t-0" id="t0-display"></span>
+        </div>
+        <div class="drug-chips" id="chips-0">
+          <button class="dchip" data-drug="파리칼1@" data-slot="0" onclick="toggleDrug(this)">파리칼1@</button>
+          <button class="dchip" data-drug="네오본1@" data-slot="0" onclick="toggleDrug(this)">네오본1@</button>
+          <button class="dchip" data-drug="케리FA1@" data-slot="0" onclick="toggleDrug(this)">케리FA1@</button>
+        </div>
+        <div class="drug-group-label"><i class="ti ti-droplet" aria-hidden="true"></i> 조혈제</div>
+        <div class="drug-chips">
+          <button class="dchip" data-drug="에포카인1000" data-slot="0" onclick="toggleDrug(this)">에포카인1000</button>
+          <button class="dchip" data-drug="에포카인2000" data-slot="0" onclick="toggleDrug(this)">에포카인2000</button>
+          <button class="dchip" data-drug="에포카인4000" data-slot="0" onclick="toggleDrug(this)">에포카인4000</button>
+          <button class="dchip" data-drug="에포카인6000" data-slot="0" onclick="toggleDrug(this)">에포카인6000</button>
+          <button class="dchip" data-drug="에포카인10000" data-slot="0" onclick="toggleDrug(this)">에포카인10000</button>
+          <button class="dchip" data-drug="에스포젠1000" data-slot="0" onclick="toggleDrug(this)">에스포젠1000</button>
+          <button class="dchip" data-drug="에스포젠2000" data-slot="0" onclick="toggleDrug(this)">에스포젠2000</button>
+          <button class="dchip" data-drug="에스포젠4000" data-slot="0" onclick="toggleDrug(this)">에스포젠4000</button>
+          <button class="dchip" data-drug="에스포젠6000" data-slot="0" onclick="toggleDrug(this)">에스포젠6000</button>
+          <button class="dchip" data-drug="에스포젠10000" data-slot="0" onclick="toggleDrug(this)">에스포젠10000</button>
+          <button class="dchip" data-drug="네스프30" data-slot="0" onclick="toggleDrug(this)">네스프30</button>
+          <button class="dchip" data-drug="네스프60" data-slot="0" onclick="toggleDrug(this)">네스프60</button>
+          <button class="dchip" data-drug="네스프90(30+60)" data-slot="0" onclick="toggleDrug(this)">네스프90(30+60)</button>
+          <button class="dchip" data-drug="네스프120" data-slot="0" onclick="toggleDrug(this)">네스프120</button>
+        </div>
+        <input class="extra-in" type="text" id="extra-0" placeholder="직접 입력"/>
+      </div>
+
+      <div class="row" style="margin-top:.25rem;">
+        <span class="label">메모</span>
+        <input class="memo-in" type="text" id="memo" placeholder="예) BST, 특이사항 등"/>
+      </div>
+      <button class="btn-add" onclick="addEntry()"><i class="ti ti-plus" aria-hidden="true"></i> 노트에 추가</button>
+    </div>
+  </div>
+
+  <div id="tab-note" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+      <span style="font-size:13px;font-weight:700;color:var(--color-text-secondary);" id="note-count">0명</span>
+      <button class="btn-clear" onclick="clearAll()"><i class="ti ti-trash" aria-hidden="true"></i> 전체 삭제</button>
+    </div>
+    <div class="note-wrap" id="note-wrap">
+      <div class="note-empty">아직 기록된 내용이 없어요</div>
+    </div>
+    <button class="copy-btn" onclick="copyNote()"><i class="ti ti-copy" aria-hidden="true"></i> 텍스트로 복사</button>
+  </div>
+</div>
+
+<script>
+let entries=[];
+function pad(n){return String(n).padStart(2,'0');}
+function toMin(t){if(!t||!t.includes(':'))return NaN;const[h,m]=t.split(':').map(Number);return h*60+m;}
+function fromMin(m){return pad(Math.floor(((m%1440)+1440)%1440/60))+':'+pad(((m%1440)+1440)%1440%60);}
+function fmtTime(inp){
+  let v=inp.value.replace(/[^0-9]/g,'');
+  if(v.length>4)v=v.slice(0,4);
+  if(v.length>=3)v=v.slice(0,2)+':'+v.slice(2);
+  inp.value=v;
+  if(v.length===5)calcTimes();
+}
+function getDurMin(){return parseInt(document.getElementById('dur-slider').value);}
+function calcTimes(){
+  const dur=getDurMin();
+  const h=Math.floor(dur/60),m=dur%60;
+  document.getElementById('dur-val').textContent=h+'시간'+(m?' '+m+'분':'');
+  const raw=document.getElementById('start-time').value.trim();
+  const endMin=toMin(raw)+dur;
+  if(isNaN(endMin)){['end-time-display','t90-display','t60-display','t30-display','t0-display'].forEach(id=>document.getElementById(id).textContent='');return;}
+  document.getElementById('end-time-display').textContent=fromMin(endMin)+' 종료';
+  document.getElementById('t90-display').textContent=fromMin(endMin-90);
+  document.getElementById('t60-display').textContent=fromMin(endMin-60);
+  document.getElementById('t30-display').textContent=fromMin(endMin-30);
+  document.getElementById('t0-display').textContent=fromMin(endMin);
+  checkConflict();
+}
+function getEndMin(){return toMin(document.getElementById('start-time').value.trim())+getDurMin();}
+function toggleDrug(btn){btn.classList.toggle('on');checkConflict();}
+function checkConflict(){
+  const on90=Array.from(document.querySelectorAll('#chips-90 .dchip.on')).map(b=>b.dataset.drug);
+  const on60=Array.from(document.querySelectorAll('#chips-60 .dchip.on')).map(b=>b.dataset.drug);
+  const has90=on90.includes('네프라민')||on90.includes('리피션');
+  const has60=on60.includes('훼모럼');
+  const note=document.getElementById('conflict-note');
+  if(has90&&has60){
+    const e=getEndMin();
+    document.getElementById('conflict-t120').textContent=fromMin(e-120);
+    document.getElementById('conflict-t60').textContent=fromMin(e-60);
+    note.classList.add('show');
+  } else note.classList.remove('show');
+}
+function getSelected(slot){return Array.from(document.querySelectorAll(`.dchip[data-slot="${slot}"].on`)).map(b=>b.dataset.drug);}
+function addEntry(){
+  const name=document.getElementById('pt-name').value.trim();
+  if(!name){alert('환자 이름을 입력해주세요.');return;}
+  const endMin=getEndMin();
+  if(isNaN(endMin)){alert('투석 시작 시간을 입력해주세요. (예: 07:00)');return;}
+  const conflict=document.getElementById('conflict-note').classList.contains('show');
+  const drugs={90:getSelected('90'),60:getSelected('60'),30:getSelected('30'),0:getSelected('0')};
+  const extras={90:document.getElementById('extra-90').value.trim(),60:document.getElementById('extra-60').value.trim(),30:document.getElementById('extra-30').value.trim(),0:document.getElementById('extra-0').value.trim()};
+  const memo=document.getElementById('memo').value.trim();
+  let drugMap={};
+  [90,60,30,0].forEach(s=>{let arr=[...drugs[s]];if(extras[s])arr.push(extras[s]);drugMap[s]=arr;});
+  let adjustedMap={};
+  if(conflict){
+    adjustedMap[120]=[...drugs[90]];if(extras[90])adjustedMap[120].push(extras[90]);
+    adjustedMap[60]=drugMap[60];adjustedMap[30]=drugMap[30];adjustedMap[0]=drugMap[0];
+  } else adjustedMap={...drugMap};
+  entries.push({name,endMin,adjustedMap,conflict,memo,id:Date.now()});
+  renderNote();showTab('note');resetForm();
+}
+function resetForm(){
+  document.getElementById('pt-name').value='';
+  document.querySelectorAll('.dchip.on').forEach(b=>b.classList.remove('on'));
+  ['90','60','30','0'].forEach(s=>document.getElementById('extra-'+s).value='');
+  document.getElementById('memo').value='';
+  document.getElementById('conflict-note').classList.remove('show');
+}
+function renderNote(){
+  const wrap=document.getElementById('note-wrap');
+  document.getElementById('note-count').textContent=entries.length+'명';
+  if(!entries.length){wrap.innerHTML='<div class="note-empty">아직 기록된 내용이 없어요</div>';return;}
+  const slotLabel={120:'종료 2시간 전',90:'종료 1시간 30분 전',60:'종료 1시간 전',30:'종료 30분 전',0:'종료 시'};
+  const slotCls={120:'dt-90',90:'dt-90',60:'dt-60',30:'dt-30',0:'dt-0'};
+  wrap.innerHTML=entries.map(e=>{
+    const slots=Object.keys(e.adjustedMap).map(Number).sort((a,b)=>b-a);
+    let lines='';
+    slots.forEach(s=>{const drugs=e.adjustedMap[s];if(!drugs||!drugs.length)return;lines+=`<div class="drug-line"><span class="drug-tag ${slotCls[s]}">${fromMin(e.endMin-s)} ${slotLabel[s]}</span>${drugs.join(', ')}</div>`;});
+    if(e.memo)lines+=`<div class="drug-line" style="margin-top:3px;font-size:12px;color:var(--color-text-secondary)"><i class="ti ti-note" aria-hidden="true"></i> ${e.memo}</div>`;
+    return `<div class="entry-row"><span class="entry-time">${fromMin(e.endMin)}</span><div class="entry-body"><span class="entry-name">${e.name}</span>${e.conflict?' <span style="font-size:10px;color:#854F0B;background:#FAEEDA;padding:1px 6px;border-radius:5px">병용조정</span>':''}${lines}</div><button class="btn-del" onclick="delEntry(${e.id})"><i class="ti ti-x" aria-hidden="true"></i></button></div>`;
+  }).join('');
+}
+function delEntry(id){entries=entries.filter(e=>e.id!==id);renderNote();}
+function clearAll(){if(entries.length&&confirm('전체 삭제할까요?')){entries=[];renderNote();}}
+function copyNote(){
+  if(!entries.length)return;
+  const slotLabel={120:'종료 2시간 전',90:'종료 1시간 30분 전',60:'종료 1시간 전',30:'종료 30분 전',0:'종료 시'};
+  const txt=entries.map(e=>{
+    const slots=Object.keys(e.adjustedMap).map(Number).sort((a,b)=>b-a);
+    let lines=`${fromMin(e.endMin)} ${e.name}${e.conflict?' [병용조정]':''}`;
+    slots.forEach(s=>{const drugs=e.adjustedMap[s];if(!drugs||!drugs.length)return;lines+=`\n  ${fromMin(e.endMin-s)}(${slotLabel[s]}) ${drugs.join(', ')}`;});
+    if(e.memo)lines+=`\n  메모: ${e.memo}`;
+    return lines;
+  }).join('\n\n');
+  navigator.clipboard.writeText(txt).then(()=>alert('복사되었습니다!')).catch(()=>alert('복사 실패'));
+}
+function showTab(t){
+  document.getElementById('tab-input').style.display=t==='input'?'block':'none';
+  document.getElementById('tab-note').style.display=t==='note'?'block':'none';
+  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',(i===0&&t==='input')||(i===1&&t==='note')));
+}
+document.getElementById('dur-slider').addEventListener('input',calcTimes);
+calcTimes();
+</script>
